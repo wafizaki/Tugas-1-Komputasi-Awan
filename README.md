@@ -1,14 +1,15 @@
 # Automated Content Aggregator & Dashboard (Microservices dengan Docker)
 
-Proyek ini mendemonstrasikan arsitektur Microservices menggunakan Docker Compose (simulasi via skrip terpisah) untuk membuat pipeline otomatis: mengambil data (jokes Chuck Norris) dari API, memprosesnya, menyimpannya ke MySQL, dan menampilkannya di dashboard PHP.
+Proyek ini mendemonstrasikan arsitektur Microservices menggunakan Docker Compose (simulasi via skrip terpisah) untuk membuat pipeline otomatis: mengambil data (jokes Chuck Norris) dari API, memprosesnya, menyimpannya ke MySQL, dan menampilkannya di dashboard PHP. Proyek dapat dilihat pada Case 4.
 
-## ⚙️ Komponen Arsitektur
+## ⚙️ Komponen Arsitektur (Microservices)
 
-| Nama Container | Tugas Utama | Teknologi |
-| mysql1 | Penyimpanan data terstruktur (Jokes Database). | mysql:8.0-debian |
-| myprocess1 | Collector (Scraping/API Fetch). Mengambil data dari API eksternal. | alpine:3.18, getjokes.sh |
-| processor1 | Processor (ETL/Impor). Membaca file teks, memproses, dan memasukkannya ke MySQL. | python:3.9-slim, importer.py |
-| webserver1 | Frontend/Dashboard. Mengambil data langsung dari MySQL dan menampilkannya. | php:7.4-apache, index.php |
+| Nama Container | Tugas Utama | Teknologi | Script Kunci |
+| :--- | :--- | :--- | :--- |
+| **`mysql1`** | **Storage Layer.** Menyimpan data Jokes yang sudah terstruktur. | `mysql:8.0-debian` | `init.sql` |
+| **`myprocess1`** | **Collector/Feeder.** Mengambil data mentah dari API eksternal secara periodik. | `alpine:3.18` | `getjokes.sh` |
+| **`processor1`** | **ETL Layer.** Membaca file mentah, validasi, dan `INSERT` data ke MySQL. | `python:3.9-slim` | `importer.py` |
+| **`webserver1`** | **Frontend/Dashboard.** Menyajikan data Jokes yang sudah tersimpan di MySQL kepada pengguna. | `php:7.4-apache` | `index.php` |
 
 ## 🚀 Panduan Menjalankan (Otomatisasi)
 Asumsikan semua file (.sh, .py, .php, init.sql) sudah berada di struktur folder yang benar.
